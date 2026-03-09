@@ -1,0 +1,55 @@
+﻿   Ôû▓ Next.js 15.5.12
+   - Environments: .env.local
+
+npx : (node:30928) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED 
+environment variable to '0' makes TLS connections and HTTPS requests insecure 
+by disabling certificate verification.
+No linha:1 caractere:119
++ ... "; $env:NODE_TLS_REJECT_UNAUTHORIZED="0"; npx next build *>&1 | Out-F ...
++                                               ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:30928) Wa...e verification. 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-warnings ...` to show where the warning was created)
+   Creating an optimized production build ...
+ Ô£ô Compiled successfully in 6.4s
+   Linting and checking validity of types ...
+
+./src/app/layout.tsx
+19:9  Warning: Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+./src/components/charts/MoversTable.tsx
+101:33  Warning: '_title' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/8) ...
+   Generating static pages (2/8) 
+   Generating static pages (4/8) 
+   Generating static pages (6/8) 
+ Ô£ô Generating static pages (8/8)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+Ôöî Ôùï /                                      138 B         102 kB
+Ôö£ Ôùï /_not-found                            994 B         103 kB
+Ôö£ ãÆ /api/assets/[ticker]                   138 B         102 kB
+Ôö£ ãÆ /api/di-variation                      138 B         102 kB
+Ôö£ ãÆ /api/ibovespa/movers                   138 B         102 kB
+Ôö£ ãÆ /api/yield-curve                       138 B         102 kB
+Ôö£ ãÆ /auth/callback                         138 B         102 kB
+Ôö£ Ôùï /dashboard                            168 kB         277 kB
+Ôöö Ôùï /login                               1.43 kB         159 kB
++ First Load JS shared by all             102 kB
+  Ôö£ chunks/255-ebd51be49873d76c.js         46 kB
+  Ôö£ chunks/4bd1b696-c023c6e3521b1417.js  54.2 kB
+  Ôöö other shared chunks (total)             2 kB
+
+
+ãÆ Middleware                             82.6 kB
+
+Ôùï  (Static)   prerendered as static content
+ãÆ  (Dynamic)  server-rendered on demand
+
