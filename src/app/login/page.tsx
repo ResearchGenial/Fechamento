@@ -13,11 +13,11 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register" | "reset">("login");
   const router = useRouter();
   const supabase = createClient();
 
-  function switchMode(newMode: "login" | "register") {
+  function switchMode(newMode: "login" | "register" | "reset") {
     setMode(newMode);
     setError("");
     setSuccess("");
@@ -43,6 +43,32 @@ export default function LoginPage() {
 
     router.push("/dashboard");
     router.refresh();
+  }
+
+  async function handleResetPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    setLoading(true);
+
+    if (!email) {
+      setError("Informe seu email.");
+      setLoading(false);
+      return;
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback`,
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    setSuccess("Email de recuperação enviado! Verifique sua caixa de entrada.");
+    setLoading(false);
   }
 
   async function handleRegister(e: React.FormEvent) {
@@ -190,6 +216,66 @@ export default function LoginPage() {
                 className="w-full bg-primary text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Entrando..." : "Entrar"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => switchMode("reset")}
+                className="w-full text-sm text-muted hover:text-primary transition-colors"
+              >
+                Esqueci minha senha
+              </button>
+            </form>
+          ) : mode === "reset" ? (
+            <form onSubmit={handleResetPassword} className="space-y-4">
+              <p className="text-sm text-muted">
+                Informe seu email e enviaremos um link para redefinir sua senha.
+              </p>
+              <div>
+                <label
+                  htmlFor="reset-email"
+                  className="block text-sm font-medium text-foreground mb-1"
+                >
+                  Email
+                </label>
+                <input
+                  id="reset-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                  className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+                  placeholder="seu@genial.com.vc"
+                />
+              </div>
+
+              {error && (
+                <div className="text-sm text-accent-red bg-red-50 px-3 py-2 rounded-lg">
+                  {error}
+                </div>
+              )}
+
+              {success && (
+                <div className="text-sm text-accent-green bg-green-50 px-3 py-2 rounded-lg">
+                  {success}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-primary text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Enviando..." : "Enviar link de recuperação"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => switchMode("login")}
+                className="w-full text-sm text-muted hover:text-primary transition-colors"
+              >
+                Voltar ao login
               </button>
             </form>
           ) : (
